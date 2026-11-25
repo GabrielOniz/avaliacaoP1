@@ -1,14 +1,11 @@
 from flask import flash, render_template, redirect, url_for
 from sqlalchemy import func
 from .. import db
-from ..models import Discipline, Student
+from ..models import User, Role, Teacher, Discipline, Student
 from . import main
-from .forms import StudentForm
+from .forms import NameForm, StudentForm
+from datetime import datetime
 
-
-@main.route('/', methods=['GET', 'POST'])
-def index():
-    return render_template('index.html')
 
 @main.route('/alunos', methods=['GET', 'POST'])
 def students_page():
@@ -23,11 +20,11 @@ def students_page():
 
     student_registering_form = StudentForm()
     if student_registering_form.validate_on_submit():
-        student_name = ' '.join(student_registering_form.studentName.data.strip().split())
+        student_name = student_registering_form.studentName.data.strip()
         discipline_code = student_registering_form.discipline.data
 
         existing_student = Student.query.filter(
-            func.lower(func.trim(Student.student_name)) == student_name.lower()
+            func.lower(Student.student_name) == student_name.lower()
         ).first()
 
         if existing_student is not None:
