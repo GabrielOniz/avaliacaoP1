@@ -7,6 +7,10 @@ from .forms import NameForm, StudentForm
 from datetime import datetime
 
 
+@main.route('/')
+def index():
+    return render_template('index.html', current_time=datetime.utcnow())
+
 @main.route('/alunos', methods=['GET', 'POST'])
 def students_page():
     discipline_choices = {
