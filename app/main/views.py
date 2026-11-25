@@ -6,6 +6,10 @@ from . import main
 from .forms import StudentForm
 
 
+@main.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
 @main.route('/alunos', methods=['GET', 'POST'])
 def students_page():
     discipline_choices = {
